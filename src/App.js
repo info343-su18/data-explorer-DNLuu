@@ -27,10 +27,31 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ModalPokemon pokemon={this.state.pokemon} pokedex={this.state.pokedex}/>
+        {/* <ModalPokemon pokemon={this.state.pokemon} pokedex={this.state.pokedex}/> */}
       </div>
     );
   }
+}
+
+class PokemonCard extends Component {
+
+  // constructor(props) {
+  //   super(props);
+  // }
+  render() {
+    let pokemon = 0
+    return (
+      <div className="card" key={"dog: " + pokemon.name}>
+        <img className="card-img-top" src={pokemon.img} alt={pokemon.name} />
+        <div className="card-body">
+          <h3 className="card-title"> {pokemon.name} </h3>
+          <p className="card-text">{pokemon.sex} {pokemon.breed}</p>
+        </div>
+      </div>
+    )
+  }
+
+
 }
 
 //-- Gener
