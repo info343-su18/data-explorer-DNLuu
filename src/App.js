@@ -8,14 +8,10 @@ import _ from 'lodash';
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.pokedex);
+    console.log(props.pokedex);
     this.state = {
-      pokedex: {
-
-      },
-      pokemon: {
-
-      }
+      pokedex: this.props.pokedex,
+      pokemon: this.props.pokedex
     }
   }
 
@@ -28,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ModalPokemon pokemon={this.state.pokemon} pokedex={this.state.pokedex}/>
+        <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/>
       </div>
     );
   }
@@ -42,6 +38,7 @@ class App extends Component {
 
 class ModalPokemon extends Component {
   render() {
+    console.log(this.props.pokemon.evolution);
     return (
     <section>
       <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#pokeData">
@@ -285,10 +282,7 @@ class ModalPokemonCharacteristics extends Component {
         </div>
         <div className="col-6">
           <ul className="characteristics p-0">
-            <li>
-              <p className="h4">Abilities</p>
-              <ModalPokemonAbilities pokemon={this.props.pokemon}/>
-            </li>
+            
           </ul>
         </div>
       </div>
