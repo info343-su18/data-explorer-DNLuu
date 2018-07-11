@@ -38,11 +38,13 @@ th {
   background-color: rgb(201, 199, 199);
 }
 
+/* part of react now
 .stat-bar {
   position: relative;
   width: 100%;
   color: green;
 }
+*/
 
 .characteristics {
   list-style-type: none;

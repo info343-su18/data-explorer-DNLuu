@@ -77,119 +77,21 @@ class ModalBody extends Component {
     return (
       <div className="modal-body">
         <div className="container-fluid">
-
           <div className="row">
-
             <div className="col col-md-6">
-              <div className="rounded mb-4">
-                <img src="demo.png" alt="salemance" className="img-fluid rounded"></img>
-              </div>
               
-              <div className="stats p-2 rounded mb-4">
-                <table cellPadding='10'>
-                  <tbody>
-                    <tr className="p-2">
-                      <th>HP</th>
-                      <td className="stat-rank">20</td>
-                      <td className="stat-bar p-0">
-                        <div className="bg-success border border-dark rounded">
-                          .
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="p-2">
-                      <th>Attack</th>
-                      <td className="stat-rank">30</td>
-                      <td className="stat-bar p-0">
-                        <div className="bg-success border border-dark rounded">
-                          .
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="p-2">
-                      <th>Defense</th>
-                      <td className="stat-rank">40</td>
-                      <td className="stat-bar p-0">
-                        <div className="bg-success border border-dark rounded">
-                          .
-                        </div>
-                      </td>
-                    </tr >
-                    <tr className="p-2">
-                      <th>Sp. Atk</th>
-                      <td className="stat-rank">50</td>
-                      <td className="stat-bar p-0">
-                        <div className="bg-success border border-dark rounded">
-                          .
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="p-2"> 
-                      <th>Sp. Def</th>
-                      <td className="stat-rank">50</td>
-                      <td className="stat-bar p-0">
-                        <div className="bg-success border border-dark rounded">
-                          .
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="p-2">
-                      <th>Speed</th>
-                      <td className="stat-rank">50</td>
-                      <td className="stat-bar p-0">
-                        <div className="bg-success border border-dark rounded">
-                          .
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <ModalPokemonImg pokemon={this.props.pokemon}/>
+              <ModalPokemonStats pokemon={this.props.pokemon}/>
+              
             </div>
 
             <div className="w-100 d-sm-none d-lg-none d-xl-none"></div>
 
             <div className="col col-md-6">
 
-              <div className="mb-4 mt-3"> 
-                <p className='pokeSummary p-6'>
-                  Info about pokemans jjjjjjjjjjjjjjjjjjjjjjjj ajdfapdskjfapjdfpasokkd asdijaspdkvo aspodic jaspoicalkdfkalkdjf;alkdjsf;alskjdf;alksdnca;cnacja  daf af  f
-                </p>
-              </div>
+              <ModalDexEntry pokemon={this.props.pokemon}/>
 
-              <div className="row bg-info p-3 rounded mb-4"> 
-                <div className="col-6">
-                  <ul className="characteristics p-0">
-                    <li>
-                      <p className="h4">Height</p>
-                      <p>2' 00"</p>
-                    </li>
-                    <li>
-                      <p className="h4">Weight</p>
-                      <p>71.6 lbs</p>
-                    </li>
-                    <li>
-                      <p className="h4">Gender</p>
-                      <p>Unknown</p>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col-6">
-                  <ul className="characteristics p-0">
-                    <li>
-                      <p className="h4">Category</p>
-                      <p>Virtual</p>
-                    </li>
-                    <li>
-                      <p className="h4">Abilities</p>
-                      <ul className="characteristics p-0">
-                        <li>Trace</li>
-                        <li>Download</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              
 
               <div className="mb-4"> 
                 <p className="h4">Types</p>
@@ -266,6 +168,130 @@ class ModalBody extends Component {
     );
   }
 
+}
+
+class ModalPokemonImg extends Component {
+  render() {
+    return (
+      <div className="rounded mb-4">
+        <img src={this.props.pokemon.sprite} alt={this.props.pokemon.name} className="img-fluid rounded"></img>
+      </div>
+    );
+  }
+}
+
+class ModalPokemonStats extends Component {
+  render() {
+    return (
+      <div className="stats p-2 rounded mb-4">
+        <p className='h3 text-center'>Stats</p>
+
+          <ModalPokemonStatsTBody pokemon={this.props.pokemon}/>
+          
+      </div>
+    );
+  }
+}
+
+class ModalPokemonStatsTBody extends Component {
+  render() {
+    return (
+      <table cellPadding='10'>
+        <ModalPokemonStatsTRows pokemon={this.props.pokemon}/>
+      </table>
+    );
+  }
+}
+
+class ModalPokemonStatsTRows extends Component {
+  render() {
+    let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
+      let setWidth = this.props.pokemon.stats[key] + "%";
+      let color;
+      if (this.props.pokemon.stats[key] > 50) {
+        color = 'green';
+      } else if (this.props.pokemon.stats[key] >15) {
+        color = 'yellow';
+      } else {
+        color = 'red';
+      }
+      let divBarStyle = {
+        position: 'relative',
+        width: setWidth,
+        color: color
+      };
+      return (
+        <tr className="p-2">
+          <th>{key}</th>
+          <td className="stat-rank">{this.props.pokemon.stats[key]}</td>
+          <td className="stat-bar p-0">
+            <div className="bg-success border border-dark rounded" style={divBarStyle}>
+              .
+            </div>
+          </td>
+        </tr>
+      );
+
+    });
+
+    return (
+      <tbody>
+        {statRows}
+      </tbody>
+    );
+  }
+}
+
+class ModalDexEntry extends Component {
+  render() {
+    return (
+      <div className="mb-4 mt-3"> 
+        <p className='dexEntry p-6'>
+          {this.props.pokemon.dexEntry}
+        </p>
+      </div>
+    );
+  }
+}
+
+class ModalPokemonCharacteristics extends Component {
+  render() {
+    return (
+      <div className="row bg-info p-3 rounded mb-4"> 
+        <div className="col-6">
+          <ul className="characteristics p-0">
+            <li>
+              <p className="h4">Height</p>
+              <p>2' 00"</p>
+            </li>
+            <li>
+              <p className="h4">Weight</p>
+              <p>71.6 lbs</p>
+            </li>
+            <li>
+              <p className="h4">Gender</p>
+              <p>Unknown</p>
+            </li>
+          </ul>
+        </div>
+        <div className="col-6">
+          <ul className="characteristics p-0">
+            <li>
+              <p className="h4">Category</p>
+              <p>Virtual</p>
+            </li>
+            <li>
+              <p className="h4">Abilities</p>
+              <ul className="characteristics p-0">
+                <li>Trace</li>
+                <li>Download</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
 }
 
 class ModalFooter extends Component {
