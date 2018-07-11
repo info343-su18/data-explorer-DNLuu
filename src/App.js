@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './index.css';
+import _ from 'lodash';
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- App class --------------------------------------------------------------------------------------------------------------------------------------
@@ -17,6 +18,12 @@ class App extends Component {
     }
   }
 
+  getPokemon(pokemonName) {
+    let currPoke = this.state.pokemon;
+    currPoke = _.find(currPoke, {'name': pokemonName});
+    this.setState({pokemon:currPoke});
+  }
+
   render() {
     return (
       <div>
@@ -25,6 +32,8 @@ class App extends Component {
     );
   }
 }
+
+//-- Gener
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -90,6 +99,8 @@ class ModalBody extends Component {
             <div className="col col-md-6">
 
               <ModalDexEntry pokemon={this.props.pokemon}/>
+
+              <ModalPokemonCharacteristics pokemon={this.props.pokemon}/>
 
               
 
@@ -262,32 +273,50 @@ class ModalPokemonCharacteristics extends Component {
           <ul className="characteristics p-0">
             <li>
               <p className="h4">Height</p>
-              <p>2' 00"</p>
+              <p>{this.props.pokemon.height}</p>
             </li>
             <li>
               <p className="h4">Weight</p>
-              <p>71.6 lbs</p>
-            </li>
-            <li>
-              <p className="h4">Gender</p>
-              <p>Unknown</p>
+              <p>{this.props.pokemon.height + "lbs"}</p>
             </li>
           </ul>
         </div>
         <div className="col-6">
           <ul className="characteristics p-0">
             <li>
-              <p className="h4">Category</p>
-              <p>Virtual</p>
-            </li>
-            <li>
               <p className="h4">Abilities</p>
-              <ul className="characteristics p-0">
-                <li>Trace</li>
-                <li>Download</li>
-              </ul>
+              <ModalPokemonAbilities pokemon={this.props.pokemon}/>
             </li>
           </ul>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ModalPokemonAbilities extends Component {
+  render() {
+    let abilitiesList = this.props.pokemon.abilities.map( (ability) => {
+      return (
+        <li>{ability}</li>
+      );
+    });
+    return (
+      <ul className="characteristics p-0">
+        {abilitiesList}
+      </ul>
+    );
+  }
+}
+
+class ModalPokemonTypes extends Component {
+  render() {
+    return (
+      <div className="mb-4"> 
+        <p className="h4">Types</p>
+        <div className="row mt-2">
+          <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 1</div>
+          <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 2</div>
         </div>
       </div>
     );
@@ -310,8 +339,6 @@ class ModalFooter extends Component {
     );
   }
 }
-
-
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------

@@ -48,7 +48,7 @@
                 <p class="card-text">Dragon</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" data-toggle="modal" data-target="#pokeData">
                 <img class="card-img-top  mt-3" src="./demo.png" alt="Salamance" />
                 <div class="card-body">
                 <h3 class="card-title">Salamance</h3>
@@ -64,8 +64,10 @@
             Launch demo modal
           </button>
 
+          <div class="span4 proj-div" data-toggle="modal" data-target="#pokeData">Clickable content, graphics, whatever</div>
+
           <!-- Modal -->
-          <div class="modal fade" id="pokeData" tabindex="-1" role="dialog" aria-labelledby="pokeData" aria-hidden="true">
+          <div class="modal fade" id="pokeData" tabindex="-1" role="dialog" aria-labelledby="pokeData" aria-hidden="true" show='true'>
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
