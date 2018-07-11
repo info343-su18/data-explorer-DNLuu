@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-// import $ from 'pokedex-promise-v2';
 
 
 
@@ -16,7 +15,7 @@ let options = {
     protocol: 'https',
     versionPath: '/api/v2/',
     cache: true,
-    timeout: 60 * 1000 // 5s
+    timeout: 120 * 1000 // 5s
   }
 
 let P = new Pokedex.Pokedex(options);
@@ -30,12 +29,13 @@ let pokeData = [];
 // i.e. 1-151 for the original 151 pokemon
 for (let i = 188; i <= 188; i++) {
     let pokemonUrl = 'api/v2/pokemon/' + i;
+    let pokemon = {};
 
+    // P.resource(pokemonUrl)
     P.resource(pokemonUrl)
     .then((response) => {
-        let promise = response;
-
-        // console.log(response);
+        console.log("response");
+        console.log(response);
 
         // create object of base stats
         let baseStats = {
@@ -60,7 +60,7 @@ for (let i = 188; i <= 188; i++) {
         });
 
         // create object representing pokemon with information
-        let pokemon = {
+        pokemon = {
             name: response.name,
             id: i,
             stats: baseStats,
@@ -69,14 +69,52 @@ for (let i = 188; i <= 188; i++) {
             weight: response.weight,
             moves: moveSet,
             sprite: response.sprites.front_default
+            // pokedex entry 
+            // egg group
+            // abilities
         }
+
+        P.getPokemonSpeciesByName(pokemon.name)
+        .then(function(response) {
+            console.log("speciesData");
+            console.log(response);
+            pokemon.evolution = response.evolution_chain.url;
+            pokemon.pokedexEntry = response.flavor_text_entries[24].flavor_text;
+            let evolution = [];
+            
+            P.resource(pokemon.evolution)
+            .then(function(response) {
+                evolution.push(response.chain.species.name);
+                if (response.chain.evolves_to.length > 0) {
+                    evolution.push(response.chain.evolves_to[0].species.name);
+
+                    if (response.chain.evolves_to[0].evolves_to.length > 0) {
+                        evolution.push(response.chain.evolves_to[0].evolves_to[0].species.name);
+                    }
+                }
+
+
+            })
+            .catch((error) => {
+                console.log("thirdError");
+                console.log(error);
+            });
+
+            pokemon.evolution = evolution;
+      
+        })
+        .catch((error) => {
+            console.log("secondError");
+            console.log(error);
+        });
+
+
         pokeData.push(pokemon);
-        
-        return promise;
     })
     .catch((error) => {
         console.log(error);
     })
+
 
     /*
      let pokemon = {
@@ -90,7 +128,7 @@ for (let i = 188; i <= 188; i++) {
      pokeArray.push(pokemon);
      */
 }
-
+console.log("finalog");
  console.log(pokeData);
 
 ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
