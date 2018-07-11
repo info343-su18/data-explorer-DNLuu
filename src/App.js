@@ -8,6 +8,7 @@ import _ from 'lodash';
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.pokedex);
     this.state = {
       pokedex: {
 
