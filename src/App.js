@@ -205,39 +205,40 @@ class ModalPokemonStatsTBody extends Component {
 
 class ModalPokemonStatsTRows extends Component {
   render() {
-    let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
-      let setWidth = this.props.pokemon.stats[key] + "%";
-      let color;
-      if (this.props.pokemon.stats[key] > 50) {
-        color = 'green';
-      } else if (this.props.pokemon.stats[key] >15) {
-        color = 'yellow';
-      } else {
-        color = 'red';
-      }
-      let divBarStyle = {
-        position: 'relative',
-        width: setWidth,
-        color: color
-      };
-      return (
-        <tr className="p-2">
-          <th>{key}</th>
-          <td className="stat-rank">{this.props.pokemon.stats[key]}</td>
-          <td className="stat-bar p-0">
-            <div className="bg-success border border-dark rounded" style={divBarStyle}>
-              .
-            </div>
-          </td>
-        </tr>
-      );
+  //   let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
+  //     let setWidth = this.props.pokemon.stats[key] + "%";
+  //     let color;
+  //     if (this.props.pokemon.stats[key] > 50) {
+  //       color = 'green';
+  //     } else if (this.props.pokemon.stats[key] >15) {
+  //       color = 'yellow';
+  //     } else {
+  //       color = 'red';
+  //     }
+  //     let divBarStyle = {
+  //       position: 'relative',
+  //       width: setWidth,
+  //       color: color
+  //     };
+  //     return (
+  //       <tr className="p-2">
+  //         <th>{key}</th>
+  //         <td className="stat-rank">{this.props.pokemon.stats[key]}</td>
+  //         <td className="stat-bar p-0">
+  //           <div className="bg-success border border-dark rounded" style={divBarStyle}>
+  //             .
+  //           </div>
+  //         </td>
+  //       </tr>
+  //     );
 
-    });
+  //   });
 
     return (
-      <tbody>
-        {statRows}
-      </tbody>
+      null
+      // <tbody>
+      //   {statRows}
+      // </tbody>
     );
   }
 }
