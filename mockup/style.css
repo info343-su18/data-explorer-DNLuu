@@ -22,3 +22,30 @@ nav h2 {
   flex-basis: 200px;
   margin-bottom: 30px;
 }
+
+
+/* Modals */
+
+th {
+  text-align: right;
+}
+
+.stats {
+  background-color: rgb(201, 199, 199);
+}
+
+.stat-bar {
+  position: relative;
+  width: 100%;
+  color: green;
+}
+
+.characteristics {
+  list-style-type: none;
+}
+
+.pokeSummary {
+  line-height: 1.8;
+}
+
+
