@@ -78,18 +78,20 @@ for (let i = 188; i <= 188; i++) {
         console.log(error);
     })
 
-    // let pokemon = {
-    //     name: pokeData.name,
-    //     id: i,
-    //     stats: pokeData.stats,
-    //     type: pokeData.types['0'].type.name,
-    //     height: pokeData.height,
-    //     sprite: pokeData.sprites.front_default
-    // }
-    // pokeArray.push(pokemon);
+    /*
+     let pokemon = {
+         name: pokeData.name,
+         id: i,
+         stats: pokeData.stats,
+         type: pokeData.types['0'].type.name,
+         height: pokeData.height,
+         sprite: pokeData.sprites.front_default
+     }
+     pokeArray.push(pokemon);
+     */
 }
 
-// console.log(pokeData);
+ //console.log(pokeData);
 
 ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
 registerServiceWorker();
