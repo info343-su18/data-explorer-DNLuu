@@ -26,6 +26,7 @@ class App extends Component {
         stats:[],
         types:['water'],
         weight:10,
+        evolution:[]
       }],
       pokemon: [{
         abilities: [],
@@ -38,14 +39,13 @@ class App extends Component {
         stats:[],
         types:[],
         weight:10,
+        evolution:[]
       }]
     };
     //this.componentDidMount();
-    console.log(this.state.pokemon);
   }
 
   componentDidMount() {
-    console.log("hi");
     let Pokedex = require('pokeapi-js-wrapper');
     let options = {
       protocol: 'https',
@@ -154,15 +154,18 @@ class App extends Component {
   }
 
   getPokemon(pokemonName) {
-    let currPoke = this.state.pokemon;
+    let currPoke = this.state.pokedex;
     currPoke = _.find(currPoke, {'name': pokemonName});
-    this.setState({pokemon:currPoke});
+    let arrayPoke = [currPoke]; 
+    this.setState({pokemon:arrayPoke});
   }
 
   getPokemonById(id) {
-    let currPoke = this.state.pokemon;
+    let currPoke = this.state.pokedex;
     currPoke = _.find(currPoke, {'id': id});
-    this.setState({pokemon:currPoke});
+    let arrayPoke = [{currPoke}];
+    console.log(arrayPoke);
+    this.setState({pokemon:arrayPoke});
   }
 
   render() {
@@ -175,7 +178,7 @@ class App extends Component {
     return (
       <div className="container d-flex">
         <div className = "d-flex row">
-          <CardRow pokedex={this.state.pokedex} />
+          <CardRow pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
 
           <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/>
         </div>
@@ -185,13 +188,19 @@ class App extends Component {
   }
 }
 
+
+//-- PokeDex Home ----------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 class CardRow extends Component {
 
   render() {
     let result = [];
     for(let i = 0; i < this.props.pokedex.length; i++) {
   
-      result.push(<PokemonCard pokemon={this.props.pokedex[i]} key={i} />);
+      result.push(<PokemonCard pokemon={this.props.pokedex[i]} key={i} getPokemonCallback={this.props.getPokemonCallback}/>);
     }; 
 
     return (
@@ -211,7 +220,12 @@ class PokemonCard extends Component {
     //   type += " " + t; 
     // });
     return (
-      <div className="card mr-3 ml-3 mt-3 col-md-6 col-xl-2" key={"pokemon: " + this.props.pokemon.name}>
+      <div className="card mr-3 ml-3 mt-3 col-md-6 col-xl-2" 
+            key={"pokemon: " + this.props.pokemon.name} 
+            data-toggle="modal" 
+            data-target="#pokeData"
+            onClick = { () => this.props.getPokemonCallback(this.props.pokemon.name)}
+      >
         <div className="card-body d-flex justify-content-center">
           <img className="card-img-top thumbnailimg" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
         </div>
@@ -230,28 +244,6 @@ class PokemonCard extends Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-//-- Gener
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- Classes for modal/single pokemon info ----------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -262,7 +254,6 @@ class ModalPokemon extends Component {
     console.log('mounted');
   }
   render() {
-    console.log(this.props.pokemon);
     return (
     <section>
       <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#pokeData">
@@ -450,10 +441,8 @@ class ModalPokemonStatsTRows extends Component {
     console.log('mounted');
   }
   render() {
-    console.log(this.props.pokemon);
     let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
       let setWidth = this.props.pokemon.stats[key] + "%";
-      console.log(setWidth);
       let color;
       if (this.props.pokemon.stats[key] > 50) {
         color = 'green';
@@ -494,7 +483,6 @@ class ModalDexEntry extends Component {
     console.log('mounted');
   }
   render() {
-    console.log(this.props.pokemon.pokedexEntry);
     return (
       <div className="mb-4 mt-3"> 
         <p className='dexEntry p-6'>
@@ -560,7 +548,7 @@ class ModalPokemonTypes extends Component {
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
-      return <PokemonType type={type.name}/>
+      return <PokemonType pokemon={this.props.pokemon} type={type.name}/>
     });
     return (
       <div className="mb-4"> 
@@ -576,7 +564,7 @@ class ModalPokemonTypes extends Component {
 class PokemonType extends Component {
   render() {
     return (
-      <div className="border border-dark text-center mr-2 mb-2 rounded col-3" class={this.props.type + "Type"}>{this.props.type}</div>
+      <div className="border border-dark text-center mr-2 mb-2 rounded col-3" className={this.props.type + "Type"}>{this.props.type}</div>
     );
   }
 }
