@@ -24,7 +24,6 @@ let P = new Pokedex.Pokedex(options);
 // pokeData represents data for all pokemon to be representated in pokedex
 let pokeData = [];
 
-
 // change for loop indexes to select which pokemon to include by ID
 // i.e. 1-151 for the original 151 pokemon
 for (let i = 188; i <= 188; i++) {
@@ -79,7 +78,7 @@ for (let i = 188; i <= 188; i++) {
             console.log("speciesData");
             console.log(response);
             pokemon.evolution = response.evolution_chain.url;
-            pokemon.pokedexEntry = response.flavor_text_entries[24].flavor_text;
+            pokemon.pokedexEntry = response.flavor_text_entries[50].flavor_text;
             let evolution = [];
             
             P.resource(pokemon.evolution)
@@ -108,8 +107,8 @@ for (let i = 188; i <= 188; i++) {
             console.log(error);
         });
 
-
         pokeData.push(pokemon);
+        render();
     })
     .catch((error) => {
         console.log(error);
@@ -128,8 +127,8 @@ for (let i = 188; i <= 188; i++) {
      pokeArray.push(pokemon);
      */
 }
-console.log("finalog");
- console.log(pokeData);
 
-ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
-registerServiceWorker();
+function render() {
+    ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
+    registerServiceWorker();
+}
