@@ -593,4 +593,3 @@ class ModalFooter extends Component {
 
 
 export default App;
-g 
