@@ -9,7 +9,7 @@ import demo from './demo.png';
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.pokedex[0]);
+    // console.log(this.props.pokedex[0]);
     this.state = {
       pokedex: this.props.pokedex,
       pokemon: this.props.pokedex
@@ -22,149 +22,78 @@ class App extends Component {
     this.setState({pokemon:currPoke});
   }
 
+  getPokemonById(id) {
+    let currPoke = this.state.pokemon;
+    currPoke = _.find(currPoke, {'id': id});
+    this.setState({pokemon:currPoke});
+  }
+
   render() {
-    console.log("app");
-    console.log(this.props.pokedex["0"]);
+    // console.log("app");
+    // console.log(this.props.pokedex["0"]);
+    // console.log(this.props.pokedex["0"].name);
+    // console.log(this.props.pokedex["0"].sprite);
+    // console.log(this.props.pokedex["0"].id);
+
+
+
 
     return (
-      <div className="container">
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
+      <div className="container d-flex">
+        <div className = "d-flex row">
+          <CardRow pokedex={this.props.pokedex} />
+          
+            {/* <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/>
+            <PokemonCard pokemon={this.props.pokedex[0]}/> */}
 
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-          <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
-        </div>
-        <div className = "row card-deck">
-          <PokemonCard />
-          <PokemonCard />
-          <PokemonCard />
-
-          <PokemonCard />
-
-          {/* <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/> */}
         </div>
       </div>
     );
   }
 }
 
-class PokemonCard extends Component {
+class CardRow extends Component {
 
-  // constructor(props) {
-  //   super(props);
-  // }
   render() {
-    let pokemon = 0
+    let result = [];
+
+    for(let i = 0; i < 2; i++) {
+  
+      result.push(<PokemonCard pokemon={this.props.pokedex[i]} key={i} />);
+    }; 
+
     return (
-      <div className="card mr-3 ml-3 mt-3" key={"dog: " + pokemon.name}>
+      <div>
+      {result}
+      </div>
+    );
+  }
+}
+
+class PokemonCard extends Component {
+  render() {
+    console.log(this.props.pokemon);
+
+    let type = "";
+    // this.props.pokemon.types.forEach((t) => {
+    //   type += " " + t; 
+    // });
+    return (
+      <div className="card mr-3 ml-3 mt-3 col-md-6 col-xl-2" key={"pokemon: " + this.props.pokemon.name}>
         <div className="card-body d-flex justify-content-center">
-          <img className="card-img-top thumbnailimg" src={demo} alt={pokemon.name} />
+          <img className="card-img-top thumbnailimg" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
         </div>
         <div className="card-body">
-          <h3 className="card-title d-flex justify-content-center">Salamance</h3>
-          <p className="card-text d-flex justify-content-center">Dragon</p>
+          <h3 className="card-title d-flex justify-content-center">{this.props.pokemon.name}</h3>
+          <div>
+           <p className="card-text d-flex justify-content-center">{type}</p>
+          </div>
         </div>
       </div>
     )

@@ -6,9 +6,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 
 
-
-
-
 let Pokedex = require('pokeapi-js-wrapper');
 
 let options = {
@@ -26,7 +23,7 @@ let pokeData = [];
 
 // change for loop indexes to select which pokemon to include by ID
 // i.e. 1-151 for the original 151 pokemon
-for (let i = 188; i <= 188; i++) {
+for (let i = 1; i <= 10; i++) {
     let pokemonUrl = 'api/v2/pokemon/' + i;
     let pokemon = {};
 
@@ -100,8 +97,6 @@ for (let i = 188; i <= 188; i++) {
             });
 
             pokemon.evolution = evolution;
-
-      console.log(typeof pokeData);
 
         })
         .catch((error) => {

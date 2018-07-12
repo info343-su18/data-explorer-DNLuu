@@ -23,18 +23,33 @@ nav h2 {
 
 /* keep images in check */
 .card-deck .card {
-  flex-basis: 200px;
-  margin-bottom: 30px;
+  /* flex-basis: 200px; */
+  max-height: 400px;
+  margin-bottom: 15px;
 }
 
-img {
+img.card-img-top {
+  /* width: 45vh; */
+/* 
+  margin-right: 15%;
+  margin-left: 15%; */
 
-  width: auto;
-  height: auto;
+  width: 50%;
+  height: 50%;
+  margin-top: 10px;
+  margin-bottom: -20px;
   
 }
 
-/* Modals */
+.card-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.card-text {
+  font-size: 15px;
+  
+}
 
 th {
   text-align: right;
