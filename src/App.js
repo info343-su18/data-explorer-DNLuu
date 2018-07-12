@@ -158,7 +158,6 @@ class App extends Component {
 
   render() {
     console.log("app");
-    console.log(this.props.pokedex["0"]);
 
     return (
       <div className="container">
