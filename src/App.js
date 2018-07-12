@@ -180,8 +180,9 @@ class App extends Component {
         <div className = "d-flex row">
           <CardRow pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
 
+        {/* </div> */}
           <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/>
-        </div>
+      </div>
       </div>
     );
 
@@ -204,7 +205,7 @@ class CardRow extends Component {
     }; 
 
     return (
-      <div>
+      <div className="row">
       {result}
       </div>
     );
@@ -216,9 +217,9 @@ class PokemonCard extends Component {
     // console.log(this.props.pokemon);
 
     let type = "";
-    // this.props.pokemon.types.forEach((t) => {
-    //   type += " " + t; 
-    // });
+    this.props.pokemon.types.forEach((t) => {
+      type += " " + t; 
+    });
     return (
       <div className="card mr-3 ml-3 mt-3 col-md-6 col-xl-2" 
             key={"pokemon: " + this.props.pokemon.name} 
@@ -227,7 +228,7 @@ class PokemonCard extends Component {
             onClick = { () => this.props.getPokemonCallback(this.props.pokemon.name)}
       >
         <div className="card-body d-flex justify-content-center">
-          <img className="card-img-top thumbnailimg" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
+          <img className="card-img-top" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
         </div>
         <div className="card-body">
           <h3 className="card-title d-flex justify-content-center">{this.props.pokemon.name}</h3>
