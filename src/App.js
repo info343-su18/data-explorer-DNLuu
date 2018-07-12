@@ -41,11 +41,11 @@ class App extends Component {
       }]
     };
     //this.componentDidMount();
-    console.log(this.state.pokemon);
+    // console.log(this.state.pokemon);
   }
 
   componentDidMount() {
-    console.log("hi");
+    // console.log("hi");
     let Pokedex = require('pokeapi-js-wrapper');
     let options = {
       protocol: 'https',
@@ -62,7 +62,7 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 200; i <= 204; i++) {
+    for (let i = 1; i <= 151; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
@@ -166,14 +166,8 @@ class App extends Component {
   }
 
   render() {
-    // console.log("app");
-    // console.log(this.props.pokedex["0"]);
-    // console.log(this.props.pokedex["0"].name);
-    // console.log(this.props.pokedex["0"].sprite);
-    // console.log(this.props.pokedex["0"].id);
-
     return (
-      <div className="container d-flex">
+      <div className="container">
         {/* <div className = "row"> */}
           <CardRow pokedex={this.state.pokedex} />
 
@@ -195,7 +189,7 @@ class CardRow extends Component {
     }; 
 
     return (
-      <div className="row">
+      <div className="row justify-content-center">
       {result}
       </div>
     );
@@ -211,7 +205,8 @@ class PokemonCard extends Component {
       type += " " + t; 
     });
     return (
-      <div className="card mr-3 ml-3 mt-3 col-md-6" key={"pokemon: " + this.props.pokemon.name}>
+      <div className="card mr-3 ml-3 mt-3 col-md-4 col-sm-6 col-xl-2" key={"pokemon: " + this.props.pokemon.name}>
+        <p>{this.props.pokemon.id}</p>
         <div className="card-body d-flex justify-content-center">
           <img className="card-img-top" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
         </div>
@@ -262,7 +257,7 @@ class ModalPokemon extends Component {
     console.log('mounted');
   }
   render() {
-    console.log(this.props.pokemon);
+    // console.log(this.props.pokemon);
     return (
     <section>
       <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#pokeData">
@@ -450,10 +445,10 @@ class ModalPokemonStatsTRows extends Component {
     console.log('mounted');
   }
   render() {
-    console.log(this.props.pokemon);
+    // console.log(this.props.pokemon);
     let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
       let setWidth = this.props.pokemon.stats[key] + "%";
-      console.log(setWidth);
+      // console.log(setWidth);
       let color;
       if (this.props.pokemon.stats[key] > 50) {
         color = 'green';
@@ -494,7 +489,7 @@ class ModalDexEntry extends Component {
     console.log('mounted');
   }
   render() {
-    console.log(this.props.pokemon.pokedexEntry);
+    // console.log(this.props.pokemon.pokedexEntry);
     return (
       <div className="mb-4 mt-3"> 
         <p className='dexEntry p-6'>
@@ -576,7 +571,7 @@ class ModalPokemonTypes extends Component {
 class PokemonType extends Component {
   render() {
     return (
-      <div className="border border-dark text-center mr-2 mb-2 rounded col-3" class={this.props.type + "Type"}>{this.props.type}</div>
+      <div className="border border-dark text-center mr-2 mb-2 rounded col-3" className={this.props.type + "Type"}>{this.props.type}</div>
     );
   }
 }
