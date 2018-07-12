@@ -12,8 +12,7 @@ import demo from './demo.png';
 class App extends Component {
   constructor(props) {
     super(props);
-    // console.log(this.props.pokedex[0]);
-    //this.componentDidMount();
+    // Placeholders
     this.state = {
       pokedex: [{
         abilities: [],
@@ -62,7 +61,7 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 1; i <= 151; i++) {
+    for (let i = 280; i <= 350; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
