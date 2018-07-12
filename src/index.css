@@ -48,7 +48,11 @@ img.card-img-top {
 
 .card-text {
   font-size: 15px;
-  
+}
+/* Modals */
+img {
+  height: 80%;
+  width: 80%;
 }
 
 th {
