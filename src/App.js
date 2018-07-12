@@ -4,8 +4,10 @@ import _ from 'lodash';
 import'whatwg-fetch';
 import demo from './demo.png';
 
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- App class --------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 
 class App extends Component {
   constructor(props) {
@@ -59,15 +61,15 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 188; i <= 188; i++) {
+    for (let i = 200; i <= 204; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
       // P.resource(pokemonUrl)
       P.resource(pokemonUrl)
       .then((response) => {
-          console.log("response");
-          console.log(response);
+          // console.log("response");
+          // console.log(response);
 
           // create object of base stats
           let baseStats = {
@@ -108,8 +110,8 @@ class App extends Component {
 
           P.getPokemonSpeciesByName(pokemon.name)
           .then(function(response) {
-              console.log("speciesData");
-              console.log(response);
+              // console.log("speciesData");
+              // console.log(response);
               pokemon.evolution = response.evolution_chain.url;
               pokemon.pokedexEntry = response.flavor_text_entries[50].flavor_text;
               let evolution = [];
@@ -141,8 +143,8 @@ class App extends Component {
           });
 
           pokeData.push(pokemon);
-          console.log('aaaaaaaaaaaaaaaaaaaaaa');
-          this.setState({pokemon:pokeData})
+          // console.log('aaaaaaaaaaaaaaaaaaaaaa');
+          this.setState({pokedex:pokeData})
       })
       .catch((error) => {
           console.log(error);
@@ -170,22 +172,10 @@ class App extends Component {
     // console.log(this.props.pokedex["0"].sprite);
     // console.log(this.props.pokedex["0"].id);
 
-
-
-
     return (
       <div className="container d-flex">
         <div className = "d-flex row">
-          <CardRow pokedex={this.props.pokedex} />
-          
-            {/* <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/>
-            <PokemonCard pokemon={this.props.pokedex[0]}/> */}
+          <CardRow pokedex={this.state.pokedex} />
 
         </div>
       </div>
@@ -198,7 +188,7 @@ class CardRow extends Component {
   render() {
     let result = [];
 
-    for(let i = 0; i < 2; i++) {
+    for(let i = 0; i < this.props.pokedex.length; i++) {
   
       result.push(<PokemonCard pokemon={this.props.pokedex[i]} key={i} />);
     }; 
@@ -213,7 +203,7 @@ class CardRow extends Component {
 
 class PokemonCard extends Component {
   render() {
-    console.log(this.props.pokemon);
+    // console.log(this.props.pokemon);
 
     let type = "";
     // this.props.pokemon.types.forEach((t) => {
@@ -237,11 +227,35 @@ class PokemonCard extends Component {
 
 }
 
-//-- Gener
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//-- Gener
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- Classes for modal/single pokemon info ----------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 
 class ModalPokemon extends Component {
   componentDidMount(){
