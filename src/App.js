@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './index.css';
 import _ from 'lodash';
+import'whatwg-fetch';
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- App class --------------------------------------------------------------------------------------------------------------------------------------
@@ -8,11 +9,144 @@ import _ from 'lodash';
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.pokedex[0]);
+    //this.componentDidMount();
     this.state = {
-      pokedex: this.props.pokedex,
-      pokemon: this.props.pokedex
+      pokedex: [{
+        abilities: [],
+        height:6,
+        id:188,
+        moves: [],
+        name:"skiploom",
+        species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
+        sprites:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/188.png",
+        stats:[],
+        types:['water'],
+        weight:10,
+      }],
+      pokemon: [{
+        abilities: [],
+        height:6,
+        id:188,
+        moves: [],
+        name:"skiploom",
+        species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
+        sprites:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/188.png",
+        stats:[],
+        types:['water'],
+        weight:10,
+      }]
+    };
+    this.componentDidMount();
+  }
+
+  componentDidMount() {
+    console.log("hi");
+    let Pokedex = require('pokeapi-js-wrapper');
+    let options = {
+      protocol: 'https',
+      versionPath: '/api/v2/',
+      cache: true,
+      timeout: 120 * 1000 // 5s
     }
+
+    let P = new Pokedex.Pokedex(options);
+
+
+    // pokeData represents data for all pokemon to be representated in pokedex
+    let pokeData = [];
+
+    // change for loop indexes to select which pokemon to include by ID
+    // i.e. 1-151 for the original 151 pokemon
+    for (let i = 188; i <= 188; i++) {
+      let pokemonUrl = 'api/v2/pokemon/' + i;
+      let pokemon = {};
+
+      // P.resource(pokemonUrl)
+      P.resource(pokemonUrl)
+      .then((response) => {
+          console.log("response");
+          console.log(response);
+
+          // create object of base stats
+          let baseStats = {
+              "speed": response.stats[0].base_stat,
+              "special-defense": response.stats[1].base_stat,
+              "special-attack": response.stats[2].base_stat,
+              "defense": response.stats[3].base_stat,
+              "attack": response.stats[4].base_stat,
+              "hp": response.stats[5].base_stat
+          }
+
+          // create array of types
+          let types = [];
+          response.types.forEach((type) => {
+              types.push(type.type.name);
+          });
+          
+          // create array of possible moves, maybe make this an object?
+          let moveSet = [];
+          response.moves.forEach((move) => {
+              moveSet.push(move.move.name);
+          });
+
+          // create object representing pokemon with information
+          pokemon = {
+              name: response.name,
+              id: i,
+              stats: baseStats,
+              types: types,
+              height: response.height,
+              weight: response.weight,
+              moves: moveSet,
+              sprite: response.sprites.front_default
+              // pokedex entry 
+              // egg group
+              // abilities
+          }
+
+          P.getPokemonSpeciesByName(pokemon.name)
+          .then(function(response) {
+              console.log("speciesData");
+              console.log(response);
+              pokemon.evolution = response.evolution_chain.url;
+              pokemon.pokedexEntry = response.flavor_text_entries[50].flavor_text;
+              let evolution = [];
+              
+              P.resource(pokemon.evolution)
+              .then(function(response) {
+                  evolution.push(response.chain.species.name);
+                  if (response.chain.evolves_to.length > 0) {
+                      evolution.push(response.chain.evolves_to[0].species.name);
+
+                      if (response.chain.evolves_to[0].evolves_to.length > 0) {
+                          evolution.push(response.chain.evolves_to[0].evolves_to[0].species.name);
+                      }
+                  }
+
+
+              })
+              .catch((error) => {
+                  console.log("thirdError");
+                  console.log(error);
+              });
+
+              pokemon.evolution = evolution;
+        
+          })
+          .catch((error) => {
+              console.log("secondError");
+              console.log(error);
+          });
+
+          pokeData.push(pokemon);
+          console.log('aaaaaaaaaaaaaaaaaaaaaa');
+          this.setState({pokemon:pokeData})
+      })
+      .catch((error) => {
+          console.log(error);
+      })
+    }
+
   }
 
   getPokemon(pokemonName) {
@@ -37,8 +171,10 @@ class App extends Component {
 //-- Classes for modal/single pokemon info ----------------------------------------------------------------------------------------------------------
 
 class ModalPokemon extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
-    console.log(this.props.pokemon.stats);
     return (
     <section>
       <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#pokeData">
@@ -67,7 +203,11 @@ class ModalPokemon extends Component {
 }
 
 class ModalHeader extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
+    console.log(this.props.pokemon.evolution);
     return (
       <div className="modal-header">
         <p className="modalTitle h1 text-center">{this.props.pokemon.name}</p>
@@ -80,6 +220,9 @@ class ModalHeader extends Component {
 }
 
 class ModalBody extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <div className="modal-body">
@@ -180,6 +323,9 @@ class ModalBody extends Component {
 }
 
 class ModalPokemonImg extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <div className="rounded mb-4">
@@ -190,6 +336,9 @@ class ModalPokemonImg extends Component {
 }
 
 class ModalPokemonStats extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <div className="stats p-2 rounded mb-4">
@@ -203,6 +352,9 @@ class ModalPokemonStats extends Component {
 }
 
 class ModalPokemonStatsTBody extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <table cellPadding='10'>
@@ -213,46 +365,52 @@ class ModalPokemonStatsTBody extends Component {
 }
 
 class ModalPokemonStatsTRows extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
-  //   let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
-  //     let setWidth = this.props.pokemon.stats[key] + "%";
-  //     let color;
-  //     if (this.props.pokemon.stats[key] > 50) {
-  //       color = 'green';
-  //     } else if (this.props.pokemon.stats[key] >15) {
-  //       color = 'yellow';
-  //     } else {
-  //       color = 'red';
-  //     }
-  //     let divBarStyle = {
-  //       position: 'relative',
-  //       width: setWidth,
-  //       color: color
-  //     };
-  //     return (
-  //       <tr className="p-2">
-  //         <th>{key}</th>
-  //         <td className="stat-rank">{this.props.pokemon.stats[key]}</td>
-  //         <td className="stat-bar p-0">
-  //           <div className="bg-success border border-dark rounded" style={divBarStyle}>
-  //             .
-  //           </div>
-  //         </td>
-  //       </tr>
-  //     );
+    let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
+      let setWidth = this.props.pokemon.stats[key] + "%";
+      console.log(setWidth);
+      let color;
+      if (this.props.pokemon.stats[key] > 50) {
+        color = 'green';
+      } else if (this.props.pokemon.stats[key] >15) {
+        color = 'yellow';
+      } else {
+        color = 'red';
+      }
+      let divBarStyle = {
+        position: 'relative',
+        width: setWidth,
+        
+      };
+      return (
+        <tr className="p-2">
+          <th>{key}</th>
+          <td className="stat-rank">{this.props.pokemon.stats[key]}</td>
+          <td className="stat-bar p-0" style={divBarStyle}>
+            <div className="bg-success border border-dark rounded" >
+              .
+            </div>
+          </td>
+        </tr>
+      );
 
-  //   });
+    });
 
     return (
-      null
-      // <tbody>
-      //   {statRows}
-      // </tbody>
+      <tbody>
+        {statRows}
+      </tbody>
     );
   }
 }
 
 class ModalDexEntry extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     console.log(this.props.pokemon.pokedexEntry);
     return (
@@ -266,6 +424,9 @@ class ModalDexEntry extends Component {
 }
 
 class ModalPokemonCharacteristics extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <div className="row bg-info p-3 rounded mb-4"> 
@@ -292,6 +453,9 @@ class ModalPokemonCharacteristics extends Component {
 }
 
 class ModalPokemonAbilities extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     let abilitiesList = this.props.pokemon.abilities.map( (ability) => {
       return (
@@ -307,6 +471,9 @@ class ModalPokemonAbilities extends Component {
 }
 
 class ModalPokemonTypes extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <div className="mb-4"> 
@@ -320,7 +487,18 @@ class ModalPokemonTypes extends Component {
   }
 }
 
+class PokemonType extends Component {
+  render() {
+    return (
+      <div className="border border-dark text-center mr-2 mb-2 rounded col-3">{this.props.type}</div>
+    );
+  }
+}
+
 class ModalFooter extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
   render() {
     return (
       <div className="mb-4 pl-5">
