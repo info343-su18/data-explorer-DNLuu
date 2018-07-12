@@ -544,7 +544,7 @@ class ModalPokemonTypes extends Component {
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
-      return <PokemonType pokemon={this.props.pokemon} type={type.name}/>
+      return <PokemonType type={type}/>
     });
     return (
       <div className="mb-4"> 
@@ -560,7 +560,7 @@ class ModalPokemonTypes extends Component {
 class PokemonType extends Component {
   render() {
     return (
-      <div className="border border-dark text-center mr-2 mb-2 rounded col-3" className={this.props.type + "Type"}>{this.props.type}</div>
+      <div className={"border border-dark text-center mr-2 ml-2 mb-2 rounded col " + this.props.type + "Type"}>{this.props.type}</div>
     );
   }
 }
