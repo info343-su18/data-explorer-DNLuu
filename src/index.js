@@ -6,6 +6,16 @@ import registerServiceWorker from './registerServiceWorker';
 
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+ReactDOM.render(<App/>, document.getElementById('root'));
+registerServiceWorker();
+=======
+
+
+
+>>>>>>> 244d363276062101de5fb7423fb8512de574d16b
 let Pokedex = require('pokeapi-js-wrapper');
 
 let options = {
@@ -116,3 +126,4 @@ function render() {
     ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
     registerServiceWorker();
 }
+>>>>>>> e487af59aa5b4b1cfc4a5b20d13e6366e1789d9a
