@@ -10,11 +10,8 @@ import demo from './demo.png';
 class App extends Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
     // console.log(this.props.pokedex[0]);
-=======
     //this.componentDidMount();
->>>>>>> 244d363276062101de5fb7423fb8512de574d16b
     this.state = {
       pokedex: [{
         abilities: [],
@@ -596,3 +593,4 @@ class ModalFooter extends Component {
 
 
 export default App;
+g 
