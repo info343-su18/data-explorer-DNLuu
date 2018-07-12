@@ -9,7 +9,7 @@ import demo from './demo.png';
 class App extends Component {
   constructor(props) {
     super(props);
-
+    console.log(this.props.pokedex[0]);
     this.state = {
       pokedex: this.props.pokedex,
       pokemon: this.props.pokedex
@@ -181,7 +181,7 @@ class PokemonCard extends Component {
 
 class ModalPokemon extends Component {
   render() {
-    console.log(this.props.pokemon.evolution);
+    console.log(this.props.pokemon.stats);
     return (
     <section>
       <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#pokeData">
@@ -397,10 +397,11 @@ class ModalPokemonStatsTRows extends Component {
 
 class ModalDexEntry extends Component {
   render() {
+    console.log(this.props.pokemon.pokedexEntry);
     return (
       <div className="mb-4 mt-3"> 
         <p className='dexEntry p-6'>
-          {this.props.pokemon.dexEntry}
+          {this.props.pokemon.pokedexEntry}
         </p>
       </div>
     );
@@ -415,11 +416,11 @@ class ModalPokemonCharacteristics extends Component {
           <ul className="characteristics p-0">
             <li>
               <p className="h4">Height</p>
-              <p>{this.props.pokemon.height}</p>
+              <p>{this.props.pokemon.height + `'`}</p>
             </li>
             <li>
               <p className="h4">Weight</p>
-              <p>{this.props.pokemon.height + "lbs"}</p>
+              <p>{this.props.pokemon.weight + "lbs"}</p>
             </li>
           </ul>
         </div>

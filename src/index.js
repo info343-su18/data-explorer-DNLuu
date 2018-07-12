@@ -78,7 +78,7 @@ for (let i = 188; i <= 188; i++) {
             // console.log("speciesData");
             // console.log(response);
             pokemon.evolution = response.evolution_chain.url;
-            pokemon.pokedexEntry = response.flavor_text_entries[24].flavor_text;
+            pokemon.pokedexEntry = response.flavor_text_entries[50].flavor_text;
             let evolution = [];
             
             P.resource(pokemon.evolution)
@@ -109,16 +109,15 @@ for (let i = 188; i <= 188; i++) {
             console.log(error);
         });
 
-
         pokeData.push(pokemon);
+        render();
     })
     .catch((error) => {
         console.log(error);
     })
 }
-console.log("finalog");
-console.log(typeof pokeData);
-console.log(pokeData);
 
-ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
-registerServiceWorker();
+function render() {
+    ReactDOM.render(<App pokedex={pokeData}/>, document.getElementById('root'));
+    registerServiceWorker();
+}
