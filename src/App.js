@@ -174,7 +174,7 @@ class App extends Component {
           <CardRow pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
 
         {/* </div> */}
-          <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex}/>
+          <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)}/>
       </div>
       </div>
     );
@@ -251,16 +251,13 @@ class ModalPokemon extends Component {
   render() {
     return (
     <section>
-      <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#pokeData">
-        Launch demo modal
-      </button>
 
       <div className="modal fade" id="pokeData" tabIndex="-1" role="dialog" aria-labelledby="pokeData" aria-hidden="true">
         <div className="modal-dialog modal-lg" role="document">
           <div className="modal-content">
             <ModalHeader pokemon={this.props.pokemon}/>
 
-            <ModalBody pokemon={this.props.pokemon} pokedex={this.props.pokedex}/>
+            <ModalBody pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallback={this.props.getPokemonCallback}/>
 
             <ModalFooter pokemon={this.props.pokemon} pokedex={this.props.pokedex}/>
             
@@ -319,17 +316,9 @@ class ModalBody extends Component {
               <ModalPokemonTypes pokemon={this.props.pokemon}/>
 
               {/* Not implemented
-              <div className="mb-4">
-                <p className="h4">Weaknesses</p>
-                <div className="row mt-2">
-                  <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 1</div>
-                  <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 2</div>
-                  <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 3</div>
-                  <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 4</div>
-                  <div className="border border-dark text-center mr-2 mb-2 rounded col-3">Type 5</div>
-                </div>
-              </div>
+              <ModalPokemonWeakness pokemon={this.props.pokemon}/>
               */}
+
 
             </div>
           </div>
@@ -337,47 +326,12 @@ class ModalBody extends Component {
           <div className="mb-4"> 
             <p className="h4">Evolutions</p>
             <div className="row">
-              <div className="card col">
-                <img className="card-img-top mt-3" src="./demo.png" alt="Salamance" />
-                <div className="card-body">
-                  <p className="card-title h4">Salamance</p>
-                  <p className="card-text">Dragon</p>
-                </div>
-              </div>
 
-              <div className="w-100 d-sm-none d-lg-none d-xl-none"></div>
 
-              <div className="col">
-                <i className="fa fa-long-arrow-right fa-5x"></i>
-              </div>
-
-              <div className="w-100 d-sm-none d-lg-none d-xl-none"></div>
-
-              <div className="card col">
-                <img className="card-img-top mt-3" src="./demo.png" alt="Salamance" />
-                <div className="card-body">
-                  <p className="card-title h4">Salamance</p>
-                  <p className="card-text">Dragon</p>
-                </div>
-              </div>
-
-              <div className="w-100 d-sm-none d-lg-none d-xl-none"></div>
-
-              <div className="col">
-                <i className="fa fa-long-arrow-right fa-5x"></i>
-              </div>
-
-              <div className="w-100 d-sm-none d-lg-none d-xl-none"></div>
-
-              <div className="card col">
-                <img className="card-img-top mt-3" src={demo} alt="Salamance" />
-                <div className="card-body">
-                  <p className="card-title h4">Salamance</p>
-                  <p className="card-text">Dragon</p>
-                </div>
-              </div>
-
+              <ModalEvolutionLayout pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallback={this.props.getPokemonCallback}/>
+              
             </div>
+              
           </div>
 
         </div>
@@ -452,7 +406,7 @@ class ModalPokemonStatsTRows extends Component {
         
       };
       return (
-        <tr className="p-2">
+        <tr key={key} className="p-2">
           <th>{key}</th>
           <td className="stat-rank">{this.props.pokemon.stats[key]}</td>
           <td className="stat-bar p-0" style={divBarStyle}>
@@ -543,7 +497,7 @@ class ModalPokemonTypes extends Component {
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
-      return <PokemonType type={type}/>
+      return <PokemonType key={type} type={type}/>
     });
     return (
       <div className="mb-4"> 
@@ -556,10 +510,95 @@ class ModalPokemonTypes extends Component {
   }
 }
 
+class ModalPokemonWeakness extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
+  render() {
+    let pokemonTypes = this.props.pokemon.weakness.map( (type) => {
+      return <PokemonType type={type}/>
+    });
+    return (
+      <div className="mb-4"> 
+        <p className="h4">Weaknesses</p>
+        <div className="row mt-2">
+          {pokemonTypes}
+        </div>
+      </div>
+    );
+  }
+}
+
+class ModalEvolutionLayout extends Component {
+  render() {
+    
+    let evolutionsOutput = [];
+    let evolutionList = this.props.pokemon.evolution;
+    if (evolutionList !== undefined) {
+      for (let i = 0 ; i < evolutionList.length ; i++) {
+        if (i != 0) {
+          evolutionsOutput.push(
+            <div key={'split_' + i} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
+          )
+
+          evolutionsOutput.push(
+            <div key={'arrow_' + i} className="col">
+              <i className="fa fa-long-arrow-right fa-5x"></i>
+            </div>
+          )
+
+          evolutionsOutput.push(
+            <div key={'split2_' + i} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
+          )
+        }
+
+        let getSingleEvolutionName =  _.find(this.props.pokedex, {'name': evolutionList[i]});
+        let getSingleEvolutionID =  getSingleEvolutionName.id;
+        
+        let singleEvolution = <ModalPokemonCard pokemon={getSingleEvolutionName} key={getSingleEvolutionID} getPokemonCallback={this.props.getPokemonCallback}/>;
+        evolutionsOutput.push(singleEvolution);
+        
+      }
+    }
+    return (
+      evolutionsOutput
+    );
+  }
+}
+
+
+class ModalPokemonCard extends Component {
+  render() {
+
+    let type = "";
+    this.props.pokemon.types.forEach((t) => {
+      type += " " + t; 
+    });
+    return (
+      <div className="card col" 
+            key={"pokemon: " + this.props.pokemon.name} 
+            //data-toggle="modal" 
+            onClick = { () => this.props.getPokemonCallback(this.props.pokemon.name)}
+      >
+        <p>{this.props.pokemon.id}</p>
+        <div className="card-body d-flex justify-content-center">
+          <img className="card-img-top" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
+        </div>
+        <div className="card-body">
+          <h3 className="card-title d-flex justify-content-center">{this.props.pokemon.name}</h3>
+          <div>
+           <p className="card-text d-flex justify-content-center">{type}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
 class PokemonType extends Component {
   render() {
     return (
-      <div className={"border border-dark text-center mr-2 ml-2 mb-2 rounded col " + this.props.type + "Type"}>{this.props.type}</div>
+      <div className={"border border-dark text-center mr-2 ml-2 mb-2 rounded col-5 " + this.props.type + "Type"}>{this.props.type}</div>
     );
   }
 }
