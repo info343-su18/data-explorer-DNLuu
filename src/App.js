@@ -1,8 +1,9 @@
+'use strict';
 import React, { Component } from 'react';
-
 import './index.css';
 import _ from 'lodash';
 import'whatwg-fetch';
+
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- App class --------------------------------------------------------------------------------------------------------------------------------------
@@ -13,10 +14,11 @@ class App extends Component {
     super(props);
     // Placeholders
     this.state = {
-      pokedex: [{
+      pokedex: [
+        {
         abilities: [],
         height:6,
-        id:188,
+        id:187,
         moves: [],
         name:"skiploom",
         species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
@@ -25,7 +27,35 @@ class App extends Component {
         types:['water'],
         weight:10,
         evolution:[]
-      }],
+        },
+        {
+          abilities: [],
+          height:6,
+          id:188,
+          moves: [],
+          name:"skiploom",
+          species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
+          sprites:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/188.png",
+          stats:[],
+          types:['water'],
+          weight:10,
+          evolution:[]
+          },
+          {
+          abilities: [],
+          height:6,
+          id:189,
+          moves: [],
+          name:"skiploom",
+          species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
+          sprites:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/188.png",
+          stats:[],
+          types:['water'],
+          weight:10,
+          evolution:[]
+          }
+
+      ],
       pokemon: [{
         abilities: [],
         height:6,
@@ -150,7 +180,7 @@ class App extends Component {
     }
   }
 
-  getPokemon(pokemonName) {
+  getPokemonByName(pokemonName) {
     let currPoke = this.state.pokedex;
     currPoke = _.find(currPoke, {'name': pokemonName});
     let arrayPoke = [currPoke]; 
@@ -160,8 +190,7 @@ class App extends Component {
   getPokemonById(id) {
     let currPoke = this.state.pokedex;
     currPoke = _.find(currPoke, {'id': id});
-    let arrayPoke = [{currPoke}];
-   // console.log(arrayPoke);
+    let arrayPoke = [currPoke];
     this.setState({pokemon:arrayPoke});
   }
 
@@ -190,19 +219,23 @@ class App extends Component {
 
     return (
       <div>
+        <div className="jumbotron jumbotron-fluid p-0 bg-secondary">
+          <div className="container text-center">
+            <h1 className="display-4">PokeDex</h1>
+          </div>
+        </div>
         <NavBar searchFilter={this.state.searchFilter} setFilter={(type) => this.setFilter(type)} />
         <div className="container d-flex">
           <div className = "d-flex row">
             <CardRow pokedex={inputPokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
 
             <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)}/>
-        </div>
+          </div>
         </div>
       </div>
     );
   }
 }
-
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -258,7 +291,6 @@ class NavBar extends Component {
       </nav>
     );
   }
-
 }
 
 class CardRow extends Component {
@@ -267,7 +299,7 @@ class CardRow extends Component {
     let result = [];
     for(let i = 0; i < this.props.pokedex.length; i++) {
   
-      result.push(<PokemonCard pokemon={this.props.pokedex[i]} key={i} getPokemonCallback={this.props.getPokemonCallback}/>);
+      result.push(<PokemonCard pokemon={this.props.pokedex[i]} key={i} getPokemonCallBackName={this.props.getPokemonCallBackName}/>);
     }; 
 
     return (
@@ -287,7 +319,7 @@ class PokemonCard extends Component {
             key={"pokemon: " + this.props.pokemon.name} 
             data-toggle="modal" 
             data-target="#pokeData"
-            onClick = { () => this.props.getPokemonCallback(this.props.pokemon.name)}
+            onClick = { () => this.props.getPokemonCallBackName(this.props.pokemon.name)}
       >
         <p>I.D.{this.props.pokemon.id}</p>
         <div className="card-body d-flex justify-content-center">
@@ -351,9 +383,9 @@ class ModalPokemon extends Component {
           <div className="modal-content">
             <ModalHeader pokemon={this.props.pokemon}/>
 
-            <ModalBody pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallback={this.props.getPokemonCallback}/>
+            <ModalBody pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallBackName={this.props.getPokemonCallBackName}/>
 
-            <ModalFooter pokemon={this.props.pokemon} pokedex={this.props.pokedex}/>
+            <ModalFooter pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallBackID={this.props.getPokemonCallBackID}/>
             
           </div>
         </div>
@@ -422,7 +454,7 @@ class ModalBody extends Component {
             <div className="row">
 
 
-              <ModalEvolutionLayout pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallback={this.props.getPokemonCallback}/>
+              <ModalEvolutionLayout pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallBackName={this.props.getPokemonCallBackName}/>
               
             </div>
               
@@ -486,6 +518,7 @@ class ModalPokemonStatsTRows extends Component {
   render() {
     let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
       let setWidth = this.props.pokemon.stats[key] + "%";
+      console.log(setWidth)
       let color;
       if (this.props.pokemon.stats[key] > 50) {
         color = 'green';
@@ -497,7 +530,7 @@ class ModalPokemonStatsTRows extends Component {
       let divBarStyle = {
         position: 'relative',
         width: setWidth,
-        
+        color: color
       };
       return (
         <tr key={key} className="p-2">
@@ -633,7 +666,7 @@ class ModalEvolutionLayout extends Component {
     // console.log(this.props.pokedex);
     if (evolutionList !== undefined) {
       for (let i = 0 ; i < evolutionList.length ; i++) {
-        if (i != 0) {
+        if (i !== 0) {
           evolutionsOutput.push(
             <div key={'split_' + i} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
           )
@@ -652,7 +685,7 @@ class ModalEvolutionLayout extends Component {
         let getSingleEvolutionName =  _.find(this.props.pokedex, {'name': evolutionList[i]});
         let getSingleEvolutionID =  getSingleEvolutionName.id;
         
-        let singleEvolution = <ModalPokemonCard pokemon={getSingleEvolutionName} key={getSingleEvolutionID} getPokemonCallback={this.props.getPokemonCallback}/>;
+        let singleEvolution = <ModalPokemonCard pokemon={getSingleEvolutionName} key={getSingleEvolutionID} getPokemonCallBackName={this.props.getPokemonCallBackName}/>;
         evolutionsOutput.push(singleEvolution);
         
       }
@@ -675,7 +708,7 @@ class ModalPokemonCard extends Component {
       <div className="card col" 
             key={"pokemon: " + this.props.pokemon.name} 
             //data-toggle="modal" 
-            onClick = { () => this.props.getPokemonCallback(this.props.pokemon.name)}
+            onClick = { () => this.props.getPokemonCallBackName(this.props.pokemon.name)}
       >
         <p>{this.props.pokemon.id}</p>
         <div className="card-body d-flex justify-content-center">
@@ -704,18 +737,77 @@ class ModalFooter extends Component {
   componentDidMount(){
     console.log('mounted');
   }
+
   render() {
+    // let nextPrevPokemon = [];
+    // let evolutionList = this.props.pokemon.stats;
+    // if (evolutionList !== undefined) {
+    //   let prevIndex = this.props.pokemon.id;
+    //   let nextIndex = this.props.pokemon.id;
+    //   if (prevIndex == 1) {
+    //     prevIndex = 152;
+    //   }
+    //   if (nextIndex == 150) {
+    //     nextIndex = 0;
+    //   }
+
+    //   console.log(this.props.pokemon);
+    //   console.log(this.props.pokedex);
+    //   console.log(prevIndex);
+    //   console.log(this.props.pokedex[10]);
+    //   console.log(_.find(this.props.pokedex, {'id': 151}));
+      
+    //   nextPrevPokemon.push((_.find(this.props.pokedex, {'id': prevIndex - 1})).name);
+    //   nextPrevPokemon.push( _.find(this.props.pokedex, {'id': nextIndex + 1}).name);
+    // } 
+    //console.log( _.find(this.props.pokedex, {'id': this.props.pokemon.id - 1}).name);
+    let id = this.props.pokemon.id;
+    if (this.props.pokemon.id + 1 === 152) {
+      id = 0;
+    } else if (this.props.pokemon.id - 1 === 0){
+      id = 152;
+
+    }
+
+
     return (
       <div className="mb-4 pl-5">
-        <div className=" row justify-content-between">
-          <div className="col-4">
-            <button type="button" className="btn btn-secondary">Previous Pokemon</button>
+        <div className=" row  justify-content-between">
+          <div className="col-5 mb-3">
+            <button 
+              type="button" 
+              className="btn btn-secondary"
+              onClick= { () => {
+                if (this.props.pokemon.id - 1 === 0) {
+                  this.props.getPokemonCallBackID(151);
+                } else {
+                  this.props.getPokemonCallBackID(this.props.pokemon.id - 1);
+                }
+                
+              }}
+            >
+              {id -1}
+            </button>
           </div>
-          <div className="col-4">
-            <button type="button" className="btn btn-secondary">Next Pokemon</button>
+          <div key={'split_'} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
+          <div className="col-5 mb-3">
+            <button 
+              type="button" 
+              className="btn btn-secondary"
+              onClick= { () => {
+                if (this.props.pokemon.id + 1 === 152) {
+                  this.props.getPokemonCallBackID(1);
+                } else {
+                  this.props.getPokemonCallBackID(this.props.pokemon.id + 1);
+                }
+                
+              }}
+              >
+              {id + 1}
+              </button>
           </div>
         </div>
-      </div>
+      </div> 
     );
   }
 }
