@@ -39,7 +39,7 @@ class App extends Component {
         weight:10,
         evolution:[]
       }],
-      searchFilter: ''
+      searchFilter: 'Type'
     };
     //this.componentDidMount();
   }
@@ -61,7 +61,7 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 280; i <= 290; i++) {
+    for (let i = 0; i <= 151; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
@@ -165,6 +165,13 @@ class App extends Component {
     this.setState({pokemon:arrayPoke});
   }
 
+  setFilter(type) {
+    let newState = this.state.searchFilter;
+    newState = type;
+    this.setState({searchFilter:newState});
+    console.log(this.state.searchFilter);
+  }
+
   //---------------------------------------------------------------------------------------------------------------------------------------------------
   //-- App Render ---------------------------------------------------------------------------------------------------------
   //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -173,13 +180,20 @@ class App extends Component {
     let filteredPokedex = this.state.pokedex.filter((pokemon) => {
       return pokemon.types.includes(this.state.searchFilter.toLowerCase());
     });
+    console.log(filteredPokedex);
+    let inputPokedex = this.state.pokedex;
+    if (this.state.searchFilter == 'Type') {
+      inputPokedex = this.state.pokedex;
+    } else {
+      inputPokedex = filteredPokedex;
+    }
 
     return (
       <div>
-        <NavBar searchFilter={this.state.searchFilter} />
+        <NavBar searchFilter={this.state.searchFilter} setFilter={(type) => this.setFilter(type)} />
         <div className="container d-flex">
           <div className = "d-flex row">
-            <CardRow pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
+            <CardRow pokedex={inputPokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
 
             <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)}/>
         </div>
@@ -201,14 +215,11 @@ class NavBar extends Component {
     this.state = this.props.searchFilter;
   }
 
-  render() {
-    let text;
-    if (this.state == '') {
-      text = "Type";
-    } else {
-      text = this.state;
-    }
+  handleClick(type) {
+    this.props.setFilter(type);
+  }
 
+  render() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
@@ -216,16 +227,30 @@ class NavBar extends Component {
             {/* <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button">
             Type
             </a> */}
-            <button type = "button" clsassName="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              {text}
+            <button type = "button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              {this.props.searchFilter}
             </button>
             <ul className="dropdown-menu">
-              <li>afa</li>
-              <li>afa</li>
-
-              <li>afa</li>
-
-              <li>afa</li>
+            <li onClick={() => this.handleClick('Type')}>All</li>
+              <li onClick={() => this.handleClick('Normal')}>Normal</li>
+              <li onClick={() => this.handleClick('Fire')}>Fire</li>
+              <li onClick={() => this.handleClick('Fighting')}>Fighting</li>
+              <li onClick={() => this.handleClick('Water')}>Water</li>
+              <li onClick={() => this.handleClick('Flying')}>Flying</li>
+              <li onClick={() => this.handleClick('Grass')}>Grass</li>
+              <li onClick={() => this.handleClick('Poison')}>Poison</li>
+              <li onClick={() => this.handleClick('Electric')}>Electric</li>
+              <li onClick={() => this.handleClick('Ground')}>Ground</li>
+              <li onClick={() => this.handleClick('Psychic')}>Psychic</li>
+              <li onClick={() => this.handleClick('Rock')}>Rock</li>
+              <li onClick={() => this.handleClick('Ice')}>Ice</li>
+              <li onClick={() => this.handleClick('Bug')}>Bug</li>
+              <li onClick={() => this.handleClick('Dragon')}>Dragon</li>
+              <li onClick={() => this.handleClick('Ghost')}>Ghost</li>
+              <li onClick={() => this.handleClick('Dark')}>Dark</li>
+              <li onClick={() => this.handleClick('Steel')}>Steel</li>
+              <li onClick={() => this.handleClick('Fairy')}>Fairy</li>
+              <li onClick={() => this.handleClick('???')}>???</li>
             </ul>
           </div>
         </div>
