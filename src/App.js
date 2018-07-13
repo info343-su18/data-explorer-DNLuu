@@ -137,8 +137,8 @@ class App extends Component {
         
           })
           .catch((error) => {
-              console.log("secondError");
-              console.log(error);
+              // console.log("secondError");
+              // console.log(error);
           });
 
           pokeData.push(pokemon);
@@ -162,7 +162,7 @@ class App extends Component {
     let currPoke = this.state.pokedex;
     currPoke = _.find(currPoke, {'id': id});
     let arrayPoke = [{currPoke}];
-    console.log(arrayPoke);
+   // console.log(arrayPoke);
     this.setState({pokemon:arrayPoke});
   }
 
@@ -181,8 +181,8 @@ class App extends Component {
 }
 
 
-
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- PokeDex Home ----------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -233,7 +233,7 @@ class PokemonCard extends Component {
 
 class PokemonTypes extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
@@ -395,7 +395,7 @@ class ModalPokemonStats extends Component {
 
 class ModalPokemonStatsTBody extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     return (
@@ -408,7 +408,7 @@ class ModalPokemonStatsTBody extends Component {
 
 class ModalPokemonStatsTRows extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
@@ -450,7 +450,7 @@ class ModalPokemonStatsTRows extends Component {
 
 class ModalDexEntry extends Component {
   componentDidMount(){
-    console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     return (
@@ -465,7 +465,7 @@ class ModalDexEntry extends Component {
 
 class ModalPokemonCharacteristics extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     return (
@@ -514,7 +514,7 @@ class ModalPokemonAbilities extends Component {
 
 class ModalPokemonTypes extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
@@ -533,7 +533,7 @@ class ModalPokemonTypes extends Component {
 
 class ModalPokemonWeakness extends Component {
   componentDidMount(){
-    console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     let pokemonTypes = this.props.pokemon.weakness.map( (type) => {
@@ -629,7 +629,7 @@ class PokemonType extends Component {
 
 class ModalFooter extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     return (
