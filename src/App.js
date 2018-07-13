@@ -91,7 +91,7 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 0; i <= 151; i++) {
+    for (let i = 1; i <= 151; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
@@ -209,7 +209,6 @@ class App extends Component {
     let filteredPokedex = this.state.pokedex.filter((pokemon) => {
       return pokemon.types.includes(this.state.searchFilter.toLowerCase());
     });
-    console.log(filteredPokedex);
     let inputPokedex = this.state.pokedex;
     if (this.state.searchFilter == 'Type') {
       inputPokedex = this.state.pokedex;
@@ -227,9 +226,14 @@ class App extends Component {
         <NavBar searchFilter={this.state.searchFilter} setFilter={(type) => this.setFilter(type)} />
         <div className="container d-flex">
           <div className = "d-flex row">
-            <CardRow pokedex={inputPokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
+            <CardRow pokedex={inputPokedex} getPokemonCallBackName={(pokemonName) => this.getPokemonByName(pokemonName)} />
 
-            <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)}/>
+            <ModalPokemon 
+              pokemon={this.state.pokemon[0]} 
+              pokedex={this.state.pokedex} 
+              getPokemonCallBackName={(pokemonName) => this.getPokemonByName(pokemonName)}
+              getPokemonCallBackID={(pokemonID) => this.getPokemonById(pokemonID)}
+            />
           </div>
         </div>
       </div>
@@ -518,7 +522,6 @@ class ModalPokemonStatsTRows extends Component {
   render() {
     let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
       let setWidth = this.props.pokemon.stats[key] + "%";
-      console.log(setWidth)
       let color;
       if (this.props.pokemon.stats[key] > 50) {
         color = 'green';
@@ -761,11 +764,13 @@ class ModalFooter extends Component {
     //   nextPrevPokemon.push( _.find(this.props.pokedex, {'id': nextIndex + 1}).name);
     // } 
     //console.log( _.find(this.props.pokedex, {'id': this.props.pokemon.id - 1}).name);
-    let id = this.props.pokemon.id;
+    let prevId = this.props.pokemon.id;
+    let nextId = this.props.pokemon.id;
+    
     if (this.props.pokemon.id + 1 === 152) {
-      id = 0;
+      nextId = 0;
     } else if (this.props.pokemon.id - 1 === 0){
-      id = 152;
+      prevId = 152;
 
     }
 
@@ -786,7 +791,7 @@ class ModalFooter extends Component {
                 
               }}
             >
-              {id -1}
+              {prevId -1}
             </button>
           </div>
           <div key={'split_'} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
@@ -803,7 +808,7 @@ class ModalFooter extends Component {
                 
               }}
               >
-              {id + 1}
+              {nextId + 1}
               </button>
           </div>
         </div>
