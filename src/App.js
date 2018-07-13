@@ -665,7 +665,7 @@ class ModalEvolutionLayout extends Component {
       for (let i = 0 ; i < evolutionList.length ; i++) {
         if (i !== 0) {
           evolutionsOutput.push(
-            <div key={'split_' + i} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
+            <div key={'split_' + i} className="w-100  d-lg-none d-xl-none"></div>
           )
 
           evolutionsOutput.push(
@@ -675,7 +675,7 @@ class ModalEvolutionLayout extends Component {
           )
 
           evolutionsOutput.push(
-            <div key={'split2_' + i} className="w-100 d-sm-none d-lg-none d-xl-none"></div>
+            <div key={'split2_' + i} className="w-100 e d-lg-none d-xl-none"></div>
           )
         }
 
@@ -702,7 +702,7 @@ class ModalPokemonCard extends Component {
       type += " " + t; 
     });
     return (
-      <div className="card col" 
+      <div className="card col " 
             key={"pokemon: " + this.props.pokemon.name} 
             //data-toggle="modal" 
             onClick = { () => this.props.getPokemonCallBackName(this.props.pokemon.name)}
