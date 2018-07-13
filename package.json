@@ -2,6 +2,7 @@
   "name": "data-explorer-dnluu",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://info343-su18.github.io/data_explorer-dnluu",
   "dependencies": {
     "gh-pages": "^1.2.0",
     "pokeapi-js-wrapper": "^1.1.1",

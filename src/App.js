@@ -1,4 +1,3 @@
-'use strict';
 import React, { Component } from 'react';
 import './index.css';
 import _ from 'lodash';
@@ -210,7 +209,7 @@ class App extends Component {
       return pokemon.types.includes(this.state.searchFilter.toLowerCase());
     });
     let inputPokedex = this.state.pokedex;
-    if (this.state.searchFilter == 'Type') {
+    if (this.state.searchFilter === 'Type') {
       inputPokedex = this.state.pokedex;
     } else {
       inputPokedex = filteredPokedex;
@@ -247,10 +246,6 @@ class App extends Component {
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleClick(type) {
     this.props.setFilter(type);
   }
@@ -341,7 +336,7 @@ class PokemonCard extends Component {
 
 class PokemonTypes extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
@@ -375,7 +370,7 @@ class PokemonTypeMain extends Component {
 
 class ModalPokemon extends Component {
   componentDidMount(){
-    console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     return (
@@ -404,7 +399,7 @@ class ModalPokemon extends Component {
 
 class ModalHeader extends Component {
   componentDidMount(){
-    console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     return (
@@ -420,7 +415,7 @@ class ModalHeader extends Component {
 
 class ModalBody extends Component {
   componentDidMount(){
-    console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     return (
@@ -474,7 +469,7 @@ class ModalBody extends Component {
 
 class ModalPokemonImg extends Component {
   componentDidMount(){
-    console.log('mounted');
+    // console.log('mounted');
   }
   render() {
     return (
@@ -487,7 +482,7 @@ class ModalPokemonImg extends Component {
 
 class ModalPokemonStats extends Component {
   componentDidMount(){
-   console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     return (
@@ -503,7 +498,7 @@ class ModalPokemonStats extends Component {
 
 class ModalPokemonStatsTBody extends Component {
   componentDidMount(){
-    console.log('mounted');
+   //  console.log('mounted');
   }
   render() {
     return (
@@ -516,7 +511,7 @@ class ModalPokemonStatsTBody extends Component {
 
 class ModalPokemonStatsTRows extends Component {
   componentDidMount(){
-    console.log('mounted');
+    // console.log('mounted');
   }
   render() {
     let statRows = Object.keys(this.props.pokemon.stats).map( (key) => {
@@ -558,7 +553,7 @@ class ModalPokemonStatsTRows extends Component {
 
 class ModalDexEntry extends Component {
   componentDidMount(){
-   console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     return (
@@ -573,7 +568,7 @@ class ModalDexEntry extends Component {
 
 class ModalPokemonCharacteristics extends Component {
   componentDidMount(){
-    console.log('mounted');
+    //console.log('mounted');
   }
   render() {
     return (
@@ -602,27 +597,27 @@ class ModalPokemonCharacteristics extends Component {
   }
 }
 
-class ModalPokemonAbilities extends Component {
-  componentDidMount(){
-    console.log('mounted');
-  }
-  render() {
-    let abilitiesList = this.props.pokemon.abilities.map( (ability) => {
-      return (
-        <li>{ability}</li>
-      );
-    });
-    return (
-      <ul className="characteristics p-0">
-        {abilitiesList}
-      </ul>
-    );
-  }
-}
+// class ModalPokemonAbilities extends Component {
+//   componentDidMount(){
+//     //console.log('mounted');
+//   }
+//   render() {
+//     let abilitiesList = this.props.pokemon.abilities.map( (ability) => {
+//       return (
+//         <li>{ability}</li>
+//       );
+//     });
+//     return (
+//       <ul className="characteristics p-0">
+//         {abilitiesList}
+//       </ul>
+//     );
+//   }
+// }
 
 class ModalPokemonTypes extends Component {
   componentDidMount(){
-    console.log('mounted');
+   // console.log('mounted');
   }
   render() {
     let pokemonTypes = this.props.pokemon.types.map( (type) => {
@@ -639,24 +634,24 @@ class ModalPokemonTypes extends Component {
   }
 }
 
-class ModalPokemonWeakness extends Component {
-  componentDidMount(){
-    console.log('mounted');
-  }
-  render() {
-    let pokemonTypes = this.props.pokemon.weakness.map( (type) => {
-      return <PokemonType type={type}/>
-    });
-    return (
-      <div className="mb-4"> 
-        <p className="h4">Weaknesses</p>
-        <div className="row mt-2">
-          {pokemonTypes}
-        </div>
-      </div>
-    );
-  }
-}
+// class ModalPokemonWeakness extends Component {
+//   componentDidMount(){
+//     //console.log('mounted');
+//   }
+//   render() {
+//     let pokemonTypes = this.props.pokemon.weakness.map( (type) => {
+//       return <PokemonType type={type}/>
+//     });
+//     return (
+//       <div className="mb-4"> 
+//         <p className="h4">Weaknesses</p>
+//         <div className="row mt-2">
+//           {pokemonTypes}
+//         </div>
+//       </div>
+//     );
+//   }
+// }
 
 class ModalEvolutionLayout extends Component {
   render() {
@@ -737,7 +732,7 @@ class PokemonType extends Component {
 
 class ModalFooter extends Component {
   componentDidMount(){
-    console.log('mounted');
+    // console.log('mounted');
   }
 
   render() {
