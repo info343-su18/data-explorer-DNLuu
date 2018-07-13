@@ -245,7 +245,6 @@ class App extends Component {
 class NavBar extends Component {
   constructor(props) {
     super(props);
-    this.state = this.props.searchFilter;
   }
 
   handleClick(type) {
