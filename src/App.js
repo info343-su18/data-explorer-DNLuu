@@ -74,7 +74,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let Pokedex = require('pokeapi-js-wrapper');
+    let Pokedex = require('./pokeapi-js-wrapper');
     let options = {
       protocol: 'https',
       versionPath: '/api/v2/',
