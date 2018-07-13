@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+
 import './index.css';
 import _ from 'lodash';
 import'whatwg-fetch';
-import demo from './demo.png';
-
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- App class --------------------------------------------------------------------------------------------------------------------------------------
@@ -39,7 +38,8 @@ class App extends Component {
         types:[],
         weight:10,
         evolution:[]
-      }]
+      }],
+      search: ""
     };
     //this.componentDidMount();
   }
@@ -61,7 +61,7 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 280; i <= 350; i++) {
+    for (let i = 280; i <= 290; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
@@ -166,14 +166,25 @@ class App extends Component {
     this.setState({pokemon:arrayPoke});
   }
 
+  //---------------------------------------------------------------------------------------------------------------------------------------------------
+  //-- App Render ---------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------------------------------------------------
+
   render() {
+    let filteredPokedex = this.state.pokedex.filter((pokemon) => {
+      console.log(pokemon.types);
+      console.log(pokemon.types.includes('water'));
+      return pokemon.types.includes('water');
+    });
+    console.log(filteredPokedex);
+
     return (
       <div className="container d-flex">
         <div className = "d-flex row">
           <CardRow pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)} />
 
         {/* </div> */}
-          <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={this.state.pokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)}/>
+          <ModalPokemon pokemon={this.state.pokemon[0]} pokedex={filteredPokedex} getPokemonCallback={(pokemonName) => this.getPokemon(pokemonName)}/>
       </div>
       </div>
     );
@@ -186,7 +197,9 @@ class App extends Component {
 //-- PokeDex Home ----------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
+class NavBar extends Component {
 
+}
 
 class CardRow extends Component {
 
@@ -556,8 +569,8 @@ class ModalEvolutionLayout extends Component {
     let evolutionsOutput = [];
     let evolutionList = this.props.pokemon.evolution;
 
-    console.log("evolution");
-    console.log(this.props.pokedex);
+    // console.log("evolution");
+    // console.log(this.props.pokedex);
     if (evolutionList !== undefined) {
       for (let i = 0 ; i < evolutionList.length ; i++) {
         if (i != 0) {
