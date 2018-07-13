@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import './index.css';
 import _ from 'lodash';
 import'whatwg-fetch';
@@ -11,8 +12,7 @@ import'whatwg-fetch';
 class App extends Component {
   constructor(props) {
     super(props);
-    // console.log(this.props.pokedex[0]);
-    //this.componentDidMount();
+    // Placeholders
     this.state = {
       pokedex: [
         {
@@ -68,7 +68,8 @@ class App extends Component {
         types:[],
         weight:10,
         evolution:[]
-      }]
+      }],
+      searchFilter: ''
     };
     //this.componentDidMount();
   }
@@ -90,7 +91,7 @@ class App extends Component {
 
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
-    for (let i = 1; i <= 151; i++) {
+    for (let i = 280; i <= 290; i++) {
       let pokemonUrl = 'api/v2/pokemon/' + i;
       let pokemon = {};
 
@@ -141,11 +142,10 @@ class App extends Component {
           .then(function(response) {
               // console.log("speciesData");
               // console.log(response);
-              pokemon.evolution = response.evolution_chain.url;
               pokemon.pokedexEntry = response.flavor_text_entries[50].flavor_text;
               let evolution = [];
               
-              P.resource(pokemon.evolution)
+              P.resource(response.evolution_chain.url)
               .then(function(response) {
                   evolution.push(response.chain.species.name);
                   if (response.chain.evolves_to.length > 0) {
@@ -159,16 +159,16 @@ class App extends Component {
 
               })
               .catch((error) => {
-                  console.log("thirdError");
-                  console.log(error);
+                  // console.log("thirdError");
+                  // console.log(error);
               });
 
               pokemon.evolution = evolution;
         
           })
           .catch((error) => {
-              console.log("secondError");
-              console.log(error);
+              // console.log("secondError");
+              // console.log(error);
           });
 
           pokeData.push(pokemon);
@@ -178,7 +178,6 @@ class App extends Component {
           console.log(error);
       })
     }
-
   }
 
   getPokemonByName(pokemonName) {
@@ -195,8 +194,23 @@ class App extends Component {
     this.setState({pokemon:arrayPoke});
   }
 
+  //---------------------------------------------------------------------------------------------------------------------------------------------------
+  //-- App Render ---------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------------------------------------------------
+
   render() {
+    let filteredPokedex = this.state.pokedex.filter((pokemon) => {
+      return pokemon.types.includes(this.state.searchFilter.toLowerCase());
+    });
+
     return (
+      <div>
+        <div className="jumbotron jumbotron-fluid p-0 bg-secondary">
+          <div className="container text-center">
+            <h1 className="display-4">PokeDex</h1>
+          </div>
+        </div>
+        <NavBar searchFilter={this.state.searchFilter} />
       <div className="container d-flex">
         <div className = "d-flex row">
           <CardRow pokedex={this.state.pokedex} getPokemonCallBackName={(pokemonName) => this.getPokemonByName(pokemonName)} />
@@ -210,16 +224,57 @@ class App extends Component {
             />
       </div>
       </div>
+      </div>
     );
-
   }
 }
 
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- PokeDex Home ----------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------
+class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.props.searchFilter;
+  }
 
+  render() {
+    let text;
+    if (this.state == '') {
+      text = "Type";
+    } else {
+      text = this.state;
+    }
+
+    return (
+      <nav className="navbar navbar-default navbar-fixed-top">
+        <div className="container-fluid">
+          <div className="btn-group">
+            {/* <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button">
+            Type
+            </a> */}
+            <button type = "button" clsassName="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              {text}
+            </button>
+            <ul className="dropdown-menu">
+              <li>afa</li>
+              <li>afa</li>
+
+              <li>afa</li>
+
+              <li>afa</li>
+            </ul>
+          </div>
+        </div>
+
+      </nav>
+    );
+  }
+
+}
 
 class CardRow extends Component {
 
@@ -242,10 +297,6 @@ class PokemonCard extends Component {
   render() {
     // console.log(this.props.pokemon);
 
-    let type = "";
-    this.props.pokemon.types.forEach((t) => {
-      type += " " + t; 
-    });
     return (
       <div className="card mr-3 ml-3 mt-3 col-md-4 col-sm-6 col-xl-2" 
             key={"pokemon: " + this.props.pokemon.name} 
@@ -253,21 +304,46 @@ class PokemonCard extends Component {
             data-target="#pokeData"
             onClick = { () => this.props.getPokemonCallBackName(this.props.pokemon.name)}
       >
-        <p>{this.props.pokemon.id}</p>
+        <p>I.D.{this.props.pokemon.id}</p>
         <div className="card-body d-flex justify-content-center">
           <img className="card-img-top" src={this.props.pokemon.sprite} alt={this.props.pokemon.name} />
         </div>
         <div className="card-body">
           <h3 className="card-title d-flex justify-content-center">{this.props.pokemon.name}</h3>
-          <div>
-           <p className="card-text d-flex justify-content-center">{type}</p>
-          </div>
+          <PokemonTypes pokemon={this.props.pokemon}/>      
         </div>
       </div>
     )
   }
 
 
+}
+
+class PokemonTypes extends Component {
+  componentDidMount(){
+    console.log('mounted');
+  }
+  render() {
+    let pokemonTypes = this.props.pokemon.types.map( (type) => {
+      return <PokemonTypeMain key={type} type={type}/>
+    });
+    return (
+      <div className="mb-4"> 
+        <p className="h4">Types</p>
+        <div className="row mt-2 justify-content-center">
+          {pokemonTypes}
+        </div>
+      </div>
+    );
+  }
+}
+
+class PokemonTypeMain extends Component {
+  render() {
+    return (
+      <div className={"border border-dark text-center mr-2 ml-2 mb-2 rounded col-8 " + this.props.type + "Type"}>{this.props.type}</div>
+    );
+  }
 }
 
 
@@ -391,7 +467,7 @@ class ModalPokemonImg extends Component {
 
 class ModalPokemonStats extends Component {
   componentDidMount(){
-    console.log('mounted');
+   console.log('mounted');
   }
   render() {
     return (
@@ -463,7 +539,7 @@ class ModalPokemonStatsTRows extends Component {
 
 class ModalDexEntry extends Component {
   componentDidMount(){
-    console.log('mounted');
+   console.log('mounted');
   }
   render() {
     return (
@@ -568,6 +644,9 @@ class ModalEvolutionLayout extends Component {
     
     let evolutionsOutput = [];
     let evolutionList = this.props.pokemon.evolution;
+
+    // console.log("evolution");
+    // console.log(this.props.pokedex);
     if (evolutionList !== undefined) {
       for (let i = 0 ; i < evolutionList.length ; i++) {
         if (i !== 0) {
