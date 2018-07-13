@@ -219,7 +219,7 @@ class App extends Component {
           <ModalPokemon 
             pokemon={this.state.pokemon[0]} 
             pokedex={this.state.pokedex} 
-            getPokemonCallBackName={(pokemonName) => this.getPokemon(pokemonName)}
+            getPokemonCallBackName={(pokemonName) => this.getPokemonByName(pokemonName)}
             getPokemonCallBackID ={(pokemonID) => this.getPokemonById(pokemonID)}
             />
       </div>
