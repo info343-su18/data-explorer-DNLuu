@@ -1,8 +1,12 @@
+// Developed By
+// Dominic Luu
+// Jesse Tran
+// INFO 343 - Summer 2018
+
 import React, { Component } from 'react'
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- PokeDex Home ----------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------
+
 export class NavBar extends Component {
     handleClick(type) {
       this.props.setFilter(type);
@@ -86,8 +90,6 @@ export class NavBar extends Component {
         </div>
       )
     }
-  
-  
   }
   
   export class PokemonTypes extends Component {

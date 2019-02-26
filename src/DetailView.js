@@ -1,14 +1,17 @@
+// Developed By
+// Dominic Luu
+// Jesse Tran
+// INFO 343 - Summer 2018
+
 import React, { Component } from 'react';
 import './index.css';
 import _ from 'lodash';
 import'whatwg-fetch';
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 //-- Classes for modal/single pokemon info ----------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 
 export class ModalPokemon extends Component {
-  componentDidMount(){
+  componentDidMount() {
    // console.log('mounted');
   }
   render() {
@@ -26,11 +29,7 @@ export class ModalPokemon extends Component {
           </div>
         </div>
       </div>
-
-      
-
     </section>
-
     );
   }
 }
@@ -80,29 +79,19 @@ class ModalBody extends Component {
               {/* Not implemented
               <ModalPokemonWeakness pokemon={this.props.pokemon}/>
               */}
-
-
             </div>
           </div>
 
           <div className="mb-4"> 
             <p className="h4">Evolutions</p>
             <div className="row">
-
-
               <ModalEvolutionLayout pokemon={this.props.pokemon} pokedex={this.props.pokedex} getPokemonCallBackName={this.props.getPokemonCallBackName}/>
-              
             </div>
-              
           </div>
-
         </div>
       </div>
-
-      
     );
   }
-
 }
 
 class ModalPokemonImg extends Component {
@@ -122,13 +111,13 @@ class ModalPokemonStats extends Component {
   componentDidMount(){
    // console.log('mounted');
   }
+
   render() {
     return (
       <div className="stats p-2 rounded mb-4">
         <p className='h3 text-center'>Stats</p>
 
           <ModalPokemonStatsTBody pokemon={this.props.pokemon}/>
-          
       </div>
     );
   }
@@ -138,6 +127,7 @@ class ModalPokemonStatsTBody extends Component {
   componentDidMount(){
    //  console.log('mounted');
   }
+
   render() {
     return (
       <table cellPadding='10'>

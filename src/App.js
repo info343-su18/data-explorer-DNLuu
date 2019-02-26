@@ -1,15 +1,14 @@
+// Developed By
+// Dominic Luu
+// Jesse Tran
+// INFO 343 - Summer 2018
+
 import React, { Component } from 'react'
 import './index.css'
 import _ from 'lodash'
 import'whatwg-fetch'
 import { ModalPokemon } from './DetailView.js'
 import { NavBar , CardRow } from './Home.js'
-
-// Developed By
-// Dominic Luu
-// Jesse Tran
-// INFO 343 - SU 2018
-
 
 //-- App class --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -20,17 +19,17 @@ class App extends Component {
     this.state = {
       pokedex: [
         {
-        abilities: [],
-        height:6,
-        id:187,
-        moves: [],
-        name:"skiploom",
-        species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
-        sprites:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/188.png",
-        stats:[],
-        types:['water'],
-        weight:10,
-        evolution:[]
+          abilities: [],
+          height:6,
+          id:187,
+          moves: [],
+          name:"skiploom",
+          species:{url: "https://pokeapi.co/api/v2/pokemon-species/188/", name: "skiploom"},
+          sprites:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/188.png",
+          stats:[],
+          types:['water'],
+          weight:10,
+          evolution:[]
         },
         {
           abilities: [],
@@ -78,6 +77,7 @@ class App extends Component {
     //this.componentDidMount();
   }
 
+  // Make API calls, build up object of Pokemon data
   componentDidMount() {
     let Pokedex = require('./pokeapi-js-wrapper');
     let options = {
@@ -96,8 +96,8 @@ class App extends Component {
     // change for loop indexes to select which pokemon to include by ID
     // i.e. 1-151 for the original 151 pokemon
     for (let i = 1; i <= 151; i++) {
-      let pokemonUrl = 'api/v2/pokemon/' + i;
-      let pokemon = {};
+      let pokemonUrl = 'api/v2/pokemon/' + i
+      let pokemon = {}
 
       P.resource(pokemonUrl)
       .then((response) => {
@@ -106,25 +106,25 @@ class App extends Component {
 
           // create object of base stats
           let baseStats = {
-              "speed": response.stats[0].base_stat,
-              "special-defense": response.stats[1].base_stat,
-              "special-attack": response.stats[2].base_stat,
-              "defense": response.stats[3].base_stat,
-              "attack": response.stats[4].base_stat,
-              "hp": response.stats[5].base_stat
+            "speed": response.stats[0].base_stat,
+            "special-defense": response.stats[1].base_stat,
+            "special-attack": response.stats[2].base_stat,
+            "defense": response.stats[3].base_stat,
+            "attack": response.stats[4].base_stat,
+            "hp": response.stats[5].base_stat
           }
 
           // create array of types
-          let types = [];
+          let types = []
           response.types.forEach((type) => {
               types.push(type.type.name);
-          });
+          })
           
-          // create array of possible moves, maybe make this an object?
-          let moveSet = [];
+          // create array of possible moves
+          let moveSet = []
           response.moves.forEach((move) => {
-              moveSet.push(move.move.name);
-          });
+              moveSet.push(move.move.name)
+          })
 
           // create object representing pokemon with information
           pokemon = {
@@ -136,9 +136,9 @@ class App extends Component {
               weight: response.weight,
               moves: moveSet,
               sprite: response.sprites.front_default
-              // pokedex entry 
-              // egg group
-              // abilities
+              // To implement later: pokedex entry 
+              // To implement later: egg group
+              // To implement later: abilities
           }
 
           P.getPokemonSpeciesByName(pokemon.name)
@@ -146,34 +146,34 @@ class App extends Component {
               // console.log("speciesData");
               // console.log(response);
               pokemon.pokedexEntry = response.flavor_text_entries[50].flavor_text;
-              let evolution = [];
+              let evolution = []
               
+              // Build Pokemon's list of evolutions by name of evolution
               P.resource(response.evolution_chain.url)
               .then(function(response) {
                   evolution.push(response.chain.species.name);
+                  // First evolution
                   if (response.chain.evolves_to.length > 0) {
                       evolution.push(response.chain.evolves_to[0].species.name);
 
+                      // Second evolution if applicable
                       if (response.chain.evolves_to[0].evolves_to.length > 0) {
                           evolution.push(response.chain.evolves_to[0].evolves_to[0].species.name);
                       }
                   }
-
-
               })
               .catch((error) => {
-                  // console.log("thirdError");
-                  // console.log(error);
+                  console.log(error);
               });
 
               pokemon.evolution = evolution;
         
           })
           .catch((error) => {
-              // console.log("secondError");
-              // console.log(error);
+              console.log(error);
           });
 
+          // Add pokemon data to array of data
           pokeData.push(pokemon);
           this.setState({pokemon:pokeData, pokedex:pokeData});
       })
@@ -205,7 +205,7 @@ class App extends Component {
   }
 
   //---------------------------------------------------------------------------------------------------------------------------------------------------
-  //-- App Render ---------------------------------------------------------------------------------------------------------
+  //-------- App Render -------------------------------------------------------------------------------------------------------------------------------
   //---------------------------------------------------------------------------------------------------------------------------------------------------
 
   render() {
@@ -213,7 +213,10 @@ class App extends Component {
       return pokemon.types.includes(this.state.searchFilter.toLowerCase());
     });
     let inputPokedex = this.state.pokedex;
+
+
     if (this.state.searchFilter === 'Type') {
+      // No type selected
       inputPokedex = this.state.pokedex;
     } else {
       inputPokedex = filteredPokedex;
