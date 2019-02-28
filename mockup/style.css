@@ -1,0 +1,57 @@
+
+header.jumbotron {
+  background-color: #3887a8;
+  color: white;
+}
+
+body {
+    background-color: #3897a8;
+}
+nav {
+  background-color: #ddd;  
+  margin-bottom: 2em; 
+  padding: 1em;  
+}
+
+nav h2 {
+  font-size: 1.25rem;
+}
+
+/* keep images in check */
+.card-deck .card {
+  flex-basis: 200px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.thumbimg {
+  margin-right: auto;
+  margin-left: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+/* Modals */
+
+th {
+  text-align: right;
+}
+
+.stats {
+  background-color: rgb(201, 199, 199);
+}
+
+.stat-bar {
+  position: relative;
+  width: 50%;
+  color: green;
+}
+
+.characteristics {
+  list-style-type: none;
+}
+
+.pokeSummary {
+  line-height: 1.8;
+}
+
+
